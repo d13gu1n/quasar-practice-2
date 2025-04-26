@@ -31,3 +31,9 @@ yarn-error.log*
 
 # local .env files
 .env.local*
+.env
+
+#Package-lock and other files
+package-lock.json
+.editorconfig
+.vscode/

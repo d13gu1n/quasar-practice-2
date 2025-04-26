@@ -81,6 +81,7 @@ export default defineConfig((ctx) => {
       server: {
         type: 'http'
       },
+      port: process.env.SERVER_PORT,
       open: true // opens browser window automatically
     },
 

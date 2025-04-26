@@ -3,12 +3,10 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn
-          flat
+          no-caps
           dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
+          label="Probá"
+          @click="testMethods"
         />
 
         <q-toolbar-title>
@@ -18,28 +16,8 @@
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
     <q-page-container>
+      <WSLJamboard :test-label="testLabel" :api-test="apiTest"/>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -47,56 +25,21 @@
 
 <script setup>
 import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import WSLJamboard from 'components/WSLJamboard.vue'
+import { axiosApi } from "src/boot/axios.js"
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+const testLabel = ref("");
+const apiTest = ref({})
 
-const leftDrawerOpen = ref(false)
+async function testMethods () {
+  console.log("It works!! 😊");
+  testLabel.value = "This is, indeed, doing it's job 😍";
+  console.log("🚀 ~ testLabel:", testLabel.value);
+  apiTest.value = await getTestAPIData();
+  console.log("Axios is working?? ---> ", apiTest.value);
+}
 
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value
+function getTestAPIData () {
+  return axiosApi.get("testPropMessage").then(res => res.data);
 }
 </script>
